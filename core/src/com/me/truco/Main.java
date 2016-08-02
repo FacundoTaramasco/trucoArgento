@@ -13,5 +13,7 @@ public class Main {
 
         Truco t = new Truco();
 
+
+        System.out.println("asd");
     }
 }
