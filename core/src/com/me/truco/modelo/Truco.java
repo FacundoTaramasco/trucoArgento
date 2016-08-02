@@ -22,13 +22,16 @@ public class Truco {
 
 
 
+
     // Customs
     private void generarMazo() {
-        for (Palos p : Palos.values()) {
-            for (NumeroCarta n : NumeroCarta.values()) {
+        for (Palos p : Palos.values()) { // COPA, ORO, BASTO, ESPADA
+            for (NumeroCarta n : NumeroCarta.values()) {  // UNO DOS TRES CUATRO CINCO SEIS SIETE DIEZ ONCE DOCE
                 mazoCartas.add(new Carta(p, n));
             }
         }
+
+
     }
 
 
