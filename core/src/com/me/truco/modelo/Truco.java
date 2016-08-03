@@ -100,6 +100,7 @@ public class Truco {
         jerarquiaCartas.add( mazoCartas.get(20) ); // 1 basto
         jerarquiaCartas.add( mazoCartas.get(36) ); // 7 espada
         jerarquiaCartas.add( mazoCartas.get(16) ); // 7 oro
+
         // todos los 3
         for (Carta c : mazoCartas)
             if ( c.getValor().getValor() == 3)  jerarquiaCartas.add(c);
