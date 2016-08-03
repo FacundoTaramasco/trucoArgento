@@ -157,6 +157,9 @@ public class Truco {
         }
     }
 
+    /**
+     * Metodo que recibe todas las cartas de todos los jugadores y las agrega al mazo nuevamente
+     */
     private void recibirCartasJugadores() {
         mazoCartas.addAll(Arrays.asList( jugadorUno.entregarCargas() ));
         mazoCartas.addAll(Arrays.asList( jugadorDos.entregarCargas() ));
