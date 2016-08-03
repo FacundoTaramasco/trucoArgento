@@ -77,6 +77,39 @@ public class Truco {
         while (estadoJuego) {
 
 
+        // si son dos jugadores :
+
+        1 ronda
+
+            primer jugador puede :
+                - cantar envido
+                    - aceptar real envido, cantar falta envido
+                - jugar la primera ronda
+
+                - si el segundo jugador canto envido :
+                    - aceptar el envido, cantar real envido, aceptar falta envido
+
+            segundo jugador puede :
+                - aceptar el envido, cantar real envido, aceptar falta envido
+
+                - cantar envido si el primer jugador no lo dijo
+                    - aceptar real envido, cantar falta envido
+
+                - jugar la primera ronda
+
+        2 ronda
+
+            primer jugador puede :
+                - cantar truco
+                - jugar la segunda ronda (debe ganarla si perdio la primera)
+
+            segundo jugador puede :
+                - cantar truco
+                - jugar la segunda ronda (debe ganarla si perdio la primera)
+
+
+
+
         }
         */
     }
