@@ -1,6 +1,5 @@
 package com.me.truco;
 
-import com.me.truco.modelo.NumeroCarta;
 import com.me.truco.modelo.Truco;
 
 /**

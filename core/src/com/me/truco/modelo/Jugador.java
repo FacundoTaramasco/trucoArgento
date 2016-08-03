@@ -3,13 +3,14 @@ package com.me.truco.modelo;
 import java.util.Arrays;
 
 /**
+ * Clase que representa un jugador, el cual tiene un nombre y un maximo de ITruco.CARTASXJUGADOR cartas.
  * Created by FacundoTaramasco on 2/08/16.
  */
 public class Jugador {
 
     private String nombre;
 
-    private Carta[] cartas = new Carta[3];
+    private Carta[] cartas = new Carta[ITruco.CARTASXJUGADOR];
 
     private int indiceCarta = 0;
 
@@ -35,7 +36,7 @@ public class Jugador {
     // Customs
 
     public void recibirCarta( Carta cartaDelMazo) {
-        if (indiceCarta > 2) return;
+        if (indiceCarta == ITruco.CARTASXJUGADOR) return;
         cartas[indiceCarta] = cartaDelMazo;
         indiceCarta++;
     }
