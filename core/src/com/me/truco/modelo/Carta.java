@@ -8,6 +8,10 @@ public class Carta {
     private Palos palo;
     private NumeroCarta valor;
 
+    public Carta() {
+        this(null, null);
+    }
+
     // Constructor
     public Carta(Palos palo, NumeroCarta valor) {
         this.palo = palo;

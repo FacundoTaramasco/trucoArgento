@@ -1,30 +1,89 @@
 package com.me.truco.modelo;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 /**
  * Created by FacundoTaramasco on 2/8/2016.
  */
 public class Truco {
 
+    private List<Carta> mazoCartas = new ArrayList<Carta>();
 
-    private List<Carta> mazoCartas;
+    private final List<Carta> jerarquiaCartas = new ArrayList<Carta>();
 
-    private static final List<Carta> jerarquiaCartas = new ArrayList<Carta>();
+    private Jugador jugadorUno;
+    private Jugador jugadorDos;
 
+    private boolean estadoJuego;
+
+    // Constructor
     public Truco() {
-        mazoCartas = new ArrayList<Carta>();
+        init();
+    }
 
+    /**
+     * Metodo que inicializa el juego
+     */
+    private void init() {
         this.generarMazo();
 
         this.establecerJerarquiaCartas();
 
-        System.out.println( jerarquiaCartas );
+        System.out.println("Mazo generado : ");
+        mostrarMazoCustom();
+        System.out.println("*******************************************************");
+
+        this.abarajarMazo();
+
+        System.out.println("Mazo abarajado : ");
+        mostrarMazoCustom();
+        System.out.println("*******************************************************");
+
+        jugadorUno = new Jugador("Facu");
+        jugadorDos = new Jugador("IA");
+
+        System.out.println("Jugadores : ");
+        System.out.println(jugadorUno);
+        System.out.println(jugadorDos);
+        System.out.println("*******************************************************");
+
     }
 
+    /**
+     * A jugar!
+     */
+    public void jugar() {
+        estadoJuego = true;
+
+        System.out.println("Entregando cartas a los jugadores...");
+        darCartasJugador(jugadorUno);
+        darCartasJugador(jugadorDos);
+
+
+        System.out.println("Recibiendo cartas de todos los jugadores...");
+
+        recibirCartasJugadores();
+
+        mostrarMazoCustom();
+
+        /*
+        while (estadoJuego) {
+
+
+        }
+        */
+
+    }
 
     // Customs
+
+    /**
+     * Metodo que genera el mazo de cartas
+     */
     private void generarMazo() {
         for (Palos p : Palos.values()) { // COPA, ORO, BASTO, ESPADA
             for (NumeroCarta n : NumeroCarta.values()) { // UNO, DOS, TRES, CUATRO, CINCO, SEIS, SIETE, DIEZ, ONCE, DOCE
@@ -33,6 +92,9 @@ public class Truco {
         }
     }
 
+    /**
+     * Metodo que establece el orden jerarquico del mazo
+     */
     private void establecerJerarquiaCartas() {
         jerarquiaCartas.add( mazoCartas.get(30) ); // 1 espada
         jerarquiaCartas.add( mazoCartas.get(20) ); // 1 basto
@@ -68,5 +130,42 @@ public class Truco {
 
         for (Carta c : mazoCartas)
             if ( c.getValor().getValor() == 4) jerarquiaCartas.add(c);
+    }
+
+    /**
+     * Metodo que abaraja el mazo (lo desordena)
+     */
+    public void abarajarMazo() {
+        Collections.shuffle(mazoCartas);
+    }
+
+    /**
+     * Metodo que le entrega 3 cartas random del mazo al jugador especificado.
+     * @param j Jugador que recibe las cartas.
+     */
+    private void darCartasJugador(Jugador j) {
+        Random r = new Random();
+        Carta carta;
+        int indice;
+        for (int i = 0; i < 3; i++) {
+            indice = r.nextInt(mazoCartas.size());
+            carta = mazoCartas.get(indice);
+            j.recibirCarta(carta);
+
+            System.out.println("Se entrego " + carta + " a jugador : " + j);
+            mazoCartas.remove(indice);
+        }
+    }
+
+    private void recibirCartasJugadores() {
+        mazoCartas.addAll(Arrays.asList( jugadorUno.entregarCargas() ));
+        mazoCartas.addAll(Arrays.asList( jugadorDos.entregarCargas() ));
+    }
+
+
+    private void mostrarMazoCustom() {
+        for (Carta c : mazoCartas) {
+            System.out.println(c);
+        }
     }
 }
