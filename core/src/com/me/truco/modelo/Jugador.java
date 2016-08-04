@@ -14,6 +14,11 @@ public class Jugador {
 
     private int indiceCarta = 0;
 
+    private boolean envido;
+    private boolean envidoEnvido;
+    private boolean realEnvido;
+    private boolean faltaEnvido;
+
     // Constructor
 
     public Jugador() {
@@ -26,14 +31,20 @@ public class Jugador {
 
     // Getters
     public String getNombre() { return nombre; }
-
     public Carta[] getCartas() { return cartas; }
+    public boolean getEnvido() {return envido;}
+    public boolean getEnvidoEnvido() {return envidoEnvido;}
+    public boolean getRealEnvido() {return realEnvido;}
+    public boolean getFaltaEnvido() {return faltaEnvido;}
 
     // Setters
     public void setNombre(String nombre) { this.nombre = nombre; }
+    public void setEnvido(boolean envido) {this.envido = envido;}
+    public void setEnvidoEnvido(boolean envidoEnvido) {this.envidoEnvido = envidoEnvido;}
+    public void setRealEnvido(boolean realEnvido) {this.realEnvido = realEnvido;}
+    public void setFaltaEnvido(boolean faltaEnvido) {this.faltaEnvido = faltaEnvido;}
 
-
-    // Customs
+// Customs
 
     public void recibirCarta( Carta cartaDelMazo) {
         if (indiceCarta == ITruco.CARTASXJUGADOR) return;

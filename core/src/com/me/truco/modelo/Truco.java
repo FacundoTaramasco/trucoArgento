@@ -23,7 +23,12 @@ public class Truco {
     private Jugador jugadorUno;
     private Jugador jugadorDos;
 
+    private Jugador jugadorTurnoActual;
+
     private boolean estadoJuego;
+
+    private boolean envidoProcesado = false;
+    private boolean envidoEnvidoProcesado = false;
 
     // Constructor
     public Truco() {
@@ -34,6 +39,12 @@ public class Truco {
      * Metodo que inicializa el juego
      */
     private void init() {
+
+        jugadorUno = new Jugador("Facu");
+        jugadorDos = new Jugador("IA");
+
+        jugadorTurnoActual = jugadorUno;
+
         menu();
         /*
         System.out.println("%%% INICIANDO JUEGO %%%");
@@ -56,8 +67,7 @@ public class Truco {
         this.mostrarMazoCustom();
         System.out.println("*******************************************************\n");
 
-        jugadorUno = new Jugador("Facu");
-        jugadorDos = new Jugador("IA");
+
 
         System.out.println("Jugadores : ");
         System.out.println(jugadorUno);
@@ -67,29 +77,153 @@ public class Truco {
     }
 
 
-    private void menu() {
+    private void menuInicialPrimeraRonda() {
         boolean e = true;
         Integer opcion;
+        System.out.println("Comienza jugando : " + jugadorTurnoActual);
         String menuStr = "1. Cantar envido. \n" +
                          "2. Jugar carta.   \n" +
                          "3. Salir.         \n";
         do {
-            while ((opcion = ingresoEnteroTeclado(menuStr)) == null);
-
+        while ((opcion = ingresoEnteroTeclado(menuStr)) == null);
             switch (opcion) {
                 case 1 :
-                    System.out.println("queres envido");
+                    System.out.println("cantaron envido");
+                    jugadorTurnoActual.setEnvido(true);
+                    jugadorTurnoActual = (jugadorTurnoActual == jugadorUno ? jugadorDos : jugadorUno);
+                    menuPrimeraRonda();
                     break;
                 case 2:
                     System.out.println("Juga una carta");
+                    jugadorTurnoActual = (jugadorTurnoActual == jugadorUno ? jugadorDos : jugadorUno);
                     break;
                 case 3:
                     System.out.println("jaja cagon");
                     e = false;
             }
         } while(e);
+    }
 
 
+    private void menuPrimeraRonda() {
+        boolean estTurno = true;
+        boolean primeraRoda = true;
+        Integer opcion;
+
+
+        while (primeraRoda) {
+
+            estTurno = true;
+
+            if (jugadorTurnoActual == jugadorUno) {
+                System.out.println("LE TOCA A JUGADOR UNO");
+                if (!envidoProcesado && jugadorDos.getEnvido()) { // jugador dos canto envido
+                    String menuStr = "\n1. Aceptar envido. \n" +
+                            "2. Cantar envido envido.  \n" +
+                            "3. Cantar real envido.  \n" +
+                            "4. Cantar falta envido.  \n" +
+                            "5. NO ACEPTAR envido.  \n" +
+                            "6. Salir.         \n";
+
+                    do {
+                        while ((opcion = ingresoEnteroTeclado( menuStr)) == null);
+                        switch (opcion) {
+                            case 1 :
+                                System.out.println("jugador uno acepto envido");
+                                //jugadorTurnoActual.setEnvido(true);
+                                jugadorTurnoActual = jugadorDos;
+                                envidoProcesado = true;
+                                estTurno = false;
+                                break;
+                            /*
+                            case 2:
+                                System.out.println("envido envido");
+                                jugadorTurnoActual.setEnvidoEnvido(true);
+                                jugadorTurnoActual = jugadorDos;
+                                break;
+                            case 3:
+                                System.out.println("real envido");
+                                jugadorTurnoActual.setRealEnvido(true);
+                                jugadorTurnoActual = jugadorDos;
+                                break;
+                            case 4:
+                                System.out.println("falta envido");
+                                jugadorTurnoActual.setFaltaEnvido(true);
+                                jugadorTurnoActual = jugadorDos;
+                                break;
+                            case 5:
+                                System.out.println("jugador uno rechazo envido");
+                                jugadorTurnoActual = jugadorDos;
+                                break;
+                            case 6:
+                                System.out.println("jugador uni se fue al mazo");
+                            */
+                        }
+                    } while(estTurno);
+                }
+
+
+            }
+
+
+            if (jugadorTurnoActual == jugadorDos) {
+                System.out.println("LE TOCA A JUGADOR DOS");
+                if (!envidoProcesado && jugadorUno.getEnvido()) { // jugador uno canto envido
+
+                    String menuStr = "\n1. Aceptar envido. \n" +
+                            "2. Cantar envido envido.  \n" +
+                            "3. Cantar real envido.  \n" +
+                            "4. Cantar falta envido.  \n" +
+                            "5. NO ACEPTAR envido.  \n" +
+                            "6. Salir.         \n";
+
+                    do {
+                        while ((opcion = ingresoEnteroTeclado( menuStr)) == null);
+                        switch (opcion) {
+                            case 1 :
+                                System.out.println("jugador dos acepto envido");
+                                jugadorTurnoActual.setEnvido(true);
+                                envidoProcesado = true;
+                                jugadorTurnoActual = jugadorUno;
+                                estTurno = false;
+                                break;
+                            /*
+                            case 2:
+                                System.out.println("envido envido");
+                                jugadorDos.setEnvidoEnvido(true);
+                                jugadorTurnoActual = jugadorUno;
+                                envidoEnvidoProcesado = true;
+                                estTurno = false;
+                                break;
+                            case 3:
+                                System.out.println("real envido");
+                                jugadorTurnoActual.setRealEnvido(true);
+                                jugadorTurnoActual = jugadorUno;
+                                break;
+                            case 4:
+                                System.out.println("falta envido");
+                                jugadorTurnoActual.setFaltaEnvido(true);
+                                jugadorTurnoActual = jugadorUno;
+                                break;
+                            case 5:
+                                System.out.println("jugador dos rechazo envido");
+                                jugadorTurnoActual = jugadorUno;
+                                break;
+                            case 6:
+                                System.out.println("jugador dos se fue al mazo");
+                            */
+                        }
+                    } while(estTurno);
+                }
+            }
+        }
+
+
+    }
+
+    private void menu() {
+
+        menuInicialPrimeraRonda();
     }
 
     /**
