@@ -3,8 +3,13 @@ package com.me.truco.modelo;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
+
+import static com.me.truco.util.Utileria.ingresoEnteroTeclado;
 
 /**
  *
@@ -12,8 +17,8 @@ import java.util.Random;
  */
 public class Truco {
 
-    private List<Carta> mazoCartas            = new ArrayList<Carta>();
-    private final List<Carta> jerarquiaCartas = new ArrayList<Carta>();
+    private List<Carta> mazoCartas                    = new ArrayList<Carta>();
+    private final Map<Carta, Integer> jerarquiaCartas = new HashMap<Carta, Integer>();
 
     private Jugador jugadorUno;
     private Jugador jugadorDos;
@@ -29,6 +34,8 @@ public class Truco {
      * Metodo que inicializa el juego
      */
     private void init() {
+        menu();
+        /*
         System.out.println("%%% INICIANDO JUEGO %%%");
         System.out.println("Generando mazo...");
         this.generarMazo();
@@ -56,6 +63,33 @@ public class Truco {
         System.out.println(jugadorUno);
         System.out.println(jugadorDos);
         System.out.println("*******************************************************\n");
+        */
+    }
+
+
+    private void menu() {
+        boolean e = true;
+        Integer opcion;
+        String menuStr = "1. Cantar envido. \n" +
+                         "2. Jugar carta.   \n" +
+                         "3. Salir.         \n";
+        do {
+            while ((opcion = ingresoEnteroTeclado(menuStr)) == null);
+
+            switch (opcion) {
+                case 1 :
+                    System.out.println("queres envido");
+                    break;
+                case 2:
+                    System.out.println("Juga una carta");
+                    break;
+                case 3:
+                    System.out.println("jaja cagon");
+                    e = false;
+            }
+        } while(e);
+
+
     }
 
     /**
@@ -67,7 +101,7 @@ public class Truco {
         System.out.println("Entregando cartas a los jugadores...");
         this.darCartasJugador(jugadorUno);
         this.darCartasJugador(jugadorDos);
-        
+
         System.out.println("Recibiendo cartas de todos los jugadores...");
 
         this.recibirCartasJugadores();
@@ -79,21 +113,31 @@ public class Truco {
 
         // si son dos jugadores :
 
+
+        cantar : envido, real envido, falta envido
+
+        responder : aceptar alguno de los anteriores, envido envido, real envido, falta envido
+
+
+
+
         1 ronda
 
             primer jugador puede :
                 - cantar envido
-                    - aceptar real envido, cantar falta envido
+                    - si el segundo jugador acepto :
+                    - aceptar el envido, cantar envido envido, cantar real envido, aceptar falta envido, rechazar
+
                 - jugar la primera ronda
 
-                - si el segundo jugador canto envido :
-                    - aceptar el envido, cantar real envido, aceptar falta envido
+
 
             segundo jugador puede :
-                - aceptar el envido, cantar real envido, aceptar falta envido
 
                 - cantar envido si el primer jugador no lo dijo
                     - aceptar real envido, cantar falta envido
+
+                - aceptar el envido, cantar envido envido, cantar real envido, aceptar falta envido
 
                 - jugar la primera ronda
 
@@ -129,41 +173,42 @@ public class Truco {
      * Metodo que establece el orden jerarquico del mazo
      */
     private void establecerJerarquiaCartas() {
-        jerarquiaCartas.add( mazoCartas.get(30) ); // 1 espada
-        jerarquiaCartas.add( mazoCartas.get(20) ); // 1 basto
-        jerarquiaCartas.add( mazoCartas.get(36) ); // 7 espada
-        jerarquiaCartas.add( mazoCartas.get(16) ); // 7 oro
+
+        jerarquiaCartas.put( mazoCartas.get(30), 1 ); // 1 espada
+        jerarquiaCartas.put( mazoCartas.get(20), 2 ); // 1 basto
+        jerarquiaCartas.put( mazoCartas.get(36), 3 ); // 7 espada
+        jerarquiaCartas.put( mazoCartas.get(16), 4 ); // 7 oro
 
         // todos los 3
         for (Carta c : mazoCartas)
-            if ( c.getValor().getValor() == 3)  jerarquiaCartas.add(c);
+            if ( c.getValor().getValor() == 3)  jerarquiaCartas.put(c, 5);
         // todos los 2
         for (Carta c : mazoCartas)
-            if ( c.getValor().getValor() == 2) jerarquiaCartas.add(c);
+            if ( c.getValor().getValor() == 2) jerarquiaCartas.put(c, 6);
         // todos los 1 (menos el de espada y basto)
         for (Carta c : mazoCartas)
-            if ( c.getValor().getValor() == 1 && c.getPalo() != Palos.BASTO && c.getPalo() != Palos.ESPADA) jerarquiaCartas.add(c);
+            if ( c.getValor().getValor() == 1 && c.getPalo() != Palos.BASTO && c.getPalo() != Palos.ESPADA) jerarquiaCartas.put(c, 7);
         // todos los 12
         for (Carta c : mazoCartas)
-            if ( c.getValor().getValor() == 12) jerarquiaCartas.add(c);
+            if ( c.getValor().getValor() == 12) jerarquiaCartas.put(c, 8);
         // todos los 11
         for (Carta c : mazoCartas)
-            if ( c.getValor().getValor() == 11) jerarquiaCartas.add(c);
+            if ( c.getValor().getValor() == 11) jerarquiaCartas.put(c, 9);
         // todos los 10
         for (Carta c : mazoCartas)
-            if ( c.getValor().getValor() == 10) jerarquiaCartas.add(c);
+            if ( c.getValor().getValor() == 10) jerarquiaCartas.put(c, 10);
         // todos los 7 (menos el de espada y oro)
         for (Carta c : mazoCartas)
-            if ( c.getValor().getValor() == 7 && c.getPalo() != Palos.ESPADA && c.getPalo() != Palos.ORO) jerarquiaCartas.add(c);
+            if ( c.getValor().getValor() == 7 && c.getPalo() != Palos.ESPADA && c.getPalo() != Palos.ORO) jerarquiaCartas.put(c, 11);
         // todos los 6
         for (Carta c : mazoCartas)
-            if ( c.getValor().getValor() == 6) jerarquiaCartas.add(c);
+            if ( c.getValor().getValor() == 6) jerarquiaCartas.put(c, 12);
         // todos los 5
         for (Carta c : mazoCartas)
-            if ( c.getValor().getValor() == 5) jerarquiaCartas.add(c);
+            if ( c.getValor().getValor() == 5) jerarquiaCartas.put(c, 13);
         // todos los 4
         for (Carta c : mazoCartas)
-            if ( c.getValor().getValor() == 4) jerarquiaCartas.add(c);
+            if ( c.getValor().getValor() == 4) jerarquiaCartas.put(c,14);
     }
 
     /**
@@ -207,8 +252,10 @@ public class Truco {
     }
 
     private void mostrarJerarquiaCartas() {
-        for (Carta c : jerarquiaCartas) {
-            System.out.println(c);
+        Iterator it = jerarquiaCartas.entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry e = (Map.Entry)it.next();
+            System.out.println(e.getKey() + " " + e.getValue());
         }
     }
 }
