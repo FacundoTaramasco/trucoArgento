@@ -162,7 +162,6 @@ public class Truco {
                     } while(estTurno);
                 }
 
-
             }
 
 
